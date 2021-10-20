@@ -1,1 +1,1 @@
-web: gunicorn spotify:app -t 120
+web: gunicorn app-folder:app -t 120
