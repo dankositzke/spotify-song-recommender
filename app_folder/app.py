@@ -27,6 +27,13 @@ def root():
 
     return render_template("home.html")
 
+@app.route("/predictor", methods=["GET", "POST"])
+def predictor_page():
+
+    """Base view"""
+
+    return render_template("predictor.html")
+
 
 @app.route("/recommendations", methods=["GET", "POST"])
 def recommendations_page():
