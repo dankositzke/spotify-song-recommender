@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request
-from spotify_api_calls import *
-from model import *
+from .spotify_api_calls import *
+from .model import *
 import pandas as pd
 
 """Create and configure an instance of the flask application"""
