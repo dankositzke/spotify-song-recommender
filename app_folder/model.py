@@ -20,9 +20,10 @@ class Recommendations(DB.Model):
 
 
 def find_recommendations(input_feature_vector):
+    url = 'https://github.com/JosiahLC/9sopt/blob/JosiahLC-patch-2/app_folder/assets/smaller_tracks_features.csv'
 
     # Read in spotify data from csv
-    df_with_song_names = pd.read_csv("assets/smaller_tracks_features.csv")
+    df_with_song_names = pd.read_csv(url,sep=",")
 
     # Reduce columns to 13 to match the song features that Spotify API will return to us
     cols_to_drop = [
