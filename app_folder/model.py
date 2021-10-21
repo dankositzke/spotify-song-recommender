@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 from sklearn.neighbors import KDTree
+from .asset import *
 
 DB = SQLAlchemy()
 
