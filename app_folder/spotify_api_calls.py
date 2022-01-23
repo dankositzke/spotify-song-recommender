@@ -19,7 +19,6 @@ class SpotifyAPI(object):
     token_url = "https://accounts.spotify.com/api/token"
 
     def __init__(self, client_id, client_secret, *args, **kwargs):
-        # In case we want to inherit from somehwere else
         super().__init__(*args, **kwargs)
         self.client_id = client_id
         self.client_secret = client_secret
@@ -85,9 +84,6 @@ class SpotifyAPI(object):
             return {}
         return r.json()
 
-    # def get_artist(self, _id):
-    #     return self.get_resource(_id, resource_type="artists")
-
     def base_search(self, query_params):
         headers = self.get_resource_header()
         endpoint = "https://api.spotify.com/v1/search"
@@ -111,13 +107,6 @@ class SpotifyAPI(object):
                     query = f"{query} {operator} {operator_query}"
         query_params = urlencode({"q": query, "type": search_type.lower()})
         return self.base_search(query_params)
-
-
-# Instantiate Spotify API object
-# auth_manager = SpotifyClientCredentials(spotify_api_key, spotify_api_key_secret)
-
-# spotipy_instance = spotipy.Spotify(auth_manager=auth_manager)
-# spotify = SpotifyAPI(spotify_api_key, spotify_api_key_secret)
 
 
 def retrieve_spotify_id(song_name, artist_name):
