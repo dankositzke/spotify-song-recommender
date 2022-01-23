@@ -1,41 +1,17 @@
-from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 from sklearn.neighbors import KDTree
-
-DB = SQLAlchemy()
-
-
-class Recommendations(DB.Model):
-    """
-    Creates a Recommendations Table with SQlAlchemy.
-    This is useful for jinja2 HTML formatting in the 'recommendations.html' file.
-
-    """
-
-    id = DB.Column(DB.BigInteger, primary_key=True)
-    song = DB.Column(DB.String, nullable=False)
-    artist = DB.Column(DB.String, nullable=False)
-    album = DB.Column(DB.String, nullable=False)
 
 
 def find_recommendations(input_feature_vector):
 
     # Read in spotify data from csv
-    df_with_song_names = pd.read_csv("assets/smaller_tracks_features.csv")
+    df_with_song_names = pd.read_csv("assets/spotify_songs_dataset.csv")
 
     # Reduce columns to 13 to match the song features that Spotify API will return to us
     cols_to_drop = [
-        "year",
-        "release_date",
-        "explicit",
-        "disc_number",
-        "track_number",
-        "artist_ids",
-        "artists",
-        "album_id",
-        "album",
         "name",
-        "id",
+        "album",
+        "artists",
     ]
     df = df_with_song_names.drop(cols_to_drop, axis=1)
 

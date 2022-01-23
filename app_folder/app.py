@@ -7,18 +7,6 @@ import pandas as pd
 """Create and configure an instance of the flask application"""
 app = Flask(__name__)
 
-
-# configure app
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-# initialize database
-DB.init_app(app)
-
-# create table(s)
-with app.app_context():
-    DB.create_all()
-
 # ROOT ROUTE
 @app.route("/", methods=["GET", "POST"])
 def root():
@@ -28,17 +16,23 @@ def root():
     return render_template("home.html")
 
 
+@app.route("/predictor", methods=["GET", "POST"])
+def predictor_page():
+
+    """Base view"""
+
+    return render_template("predictor.html")
+
+
 @app.route("/recommendations", methods=["GET", "POST"])
 def recommendations_page():
     if request.method == "POST":
         song_name = request.form["song_name"]
         artist_name = request.form["artist_name"]
-
         try:
-            song_id, artist_id = retrieve_spotify_ids(song_name, artist_name)
+            song_id = retrieve_spotify_id(song_name, artist_name)
         except:
-            message = "There was an error finding your song. Please go back and enter another song."
-            return render_template("recommendations.html", message=message)
+            return render_template("recommendations-error.html")
 
         audio_features_dict = retrieve_audio_features(song_id)
 

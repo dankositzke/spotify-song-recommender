@@ -4,9 +4,10 @@ import datetime
 from urllib.parse import urlencode
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import os
 
-SPOTIFY_API_KEY = "6b68c3794bbb4c1cbf3ec4a8f2f3f6c3"
-SPOTIFY_API_KEY_SECRET = "73f5aa7628f7443190a6515ff45c602e"
+spotify_api_key = os.getenv("SPOTIFY_API_KEY")
+spotify_api_key_secret = os.getenv("SPOTIFY_API_KEY_SECRET")
 
 
 class SpotifyAPI(object):
@@ -18,7 +19,7 @@ class SpotifyAPI(object):
     token_url = "https://accounts.spotify.com/api/token"
 
     def __init__(self, client_id, client_secret, *args, **kwargs):
-        # Incase we want to inherit from somehwere else
+        # In case we want to inherit from somehwere else
         super().__init__(*args, **kwargs)
         self.client_id = client_id
         self.client_secret = client_secret
@@ -84,11 +85,8 @@ class SpotifyAPI(object):
             return {}
         return r.json()
 
-    def get_album(self, _id):
-        return self.get_resource(_id, resource_type="albums")
-
-    def get_artist(self, _id):
-        return self.get_resource(_id, resource_type="artists")
+    # def get_artist(self, _id):
+    #     return self.get_resource(_id, resource_type="artists")
 
     def base_search(self, query_params):
         headers = self.get_resource_header()
@@ -116,42 +114,39 @@ class SpotifyAPI(object):
 
 
 # Instantiate Spotify API object
-auth_manager = SpotifyClientCredentials(SPOTIFY_API_KEY, SPOTIFY_API_KEY_SECRET)
-spotiPY = spotipy.Spotify(auth_manager=auth_manager)
-spotify = SpotifyAPI(SPOTIFY_API_KEY, SPOTIFY_API_KEY_SECRET)
+# auth_manager = SpotifyClientCredentials(spotify_api_key, spotify_api_key_secret)
+
+# spotipy_instance = spotipy.Spotify(auth_manager=auth_manager)
+# spotify = SpotifyAPI(spotify_api_key, spotify_api_key_secret)
 
 
-def retrieve_spotify_ids(song_name, artist_name):
+def retrieve_spotify_id(song_name, artist_name):
     """
     Example:
 
-    song_id, artist_id = retrieve_spotify_id('margaritaville','jimmy buffett')
+    song_id = retrieve_spotify_id('margaritaville','jimmy buffett')
 
     print("Song ID is:", song_id)
-    print("Artist ID is:", artist_id)
 
     Output:
     Song ID is: 4EEjMyQub6tgFVshlM9j1M
-    Artist ID is: 28AyklUmMECPwdfo8NEsV0
 
     """
 
-    spotify = SpotifyAPI(SPOTIFY_API_KEY, SPOTIFY_API_KEY_SECRET)
-
+    spotify = SpotifyAPI(spotify_api_key, spotify_api_key_secret)
     token = spotify.get_access_token()
     if token == None:
         return "Failed to get Spotify token"
-    else:
-        try:
-            song = spotify.search(
-                {"track": song_name, "artist": artist_name}, search_type="track"
-            )
-            song_id = song["tracks"]["items"][0]["id"]
-            artist_id = song["tracks"]["items"][0]["album"]["artists"][0]["id"]
-        except:
-            return "There was an error finding your song. Please enter another song."
 
-    return song_id, artist_id
+    try:
+        song = spotify.search(
+            {"track": song_name, "artist": artist_name}, search_type="track"
+        )
+        song_id = song["tracks"]["items"][0]["id"]
+    except:
+        return "There was an error finding your song. Please enter another song."
+
+    return song_id
 
 
 def retrieve_audio_features(spotify_id):
@@ -182,8 +177,8 @@ def retrieve_audio_features(spotify_id):
 
     """
 
-    auth_manager = SpotifyClientCredentials(SPOTIFY_API_KEY, SPOTIFY_API_KEY_SECRET)
-    spotiPY = spotipy.Spotify(auth_manager=auth_manager)
+    auth_manager = SpotifyClientCredentials(spotify_api_key, spotify_api_key_secret)
+    spotipy_instance = spotipy.Spotify(auth_manager=auth_manager)
 
-    audio_features = spotiPY.audio_features(tracks=[spotify_id])
+    audio_features = spotipy_instance.audio_features(tracks=[spotify_id])
     return audio_features
