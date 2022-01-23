@@ -5,7 +5,10 @@ from sklearn.neighbors import KDTree
 def find_recommendations(input_feature_vector):
 
     # Read in spotify data from csv
-    df_with_song_names = pd.read_csv("assets/spotify_songs_dataset.csv")
+    df_with_song_names = pd.read_csv(
+        "https://raw.githubusercontent.com/dankositzke/spotify-song-recommender/heroku-deployment/app_folder/assets/spotify_songs_dataset.csv",
+        sep=",",
+    )
 
     # Reduce columns to 13 to match the song features that Spotify API will return to us
     cols_to_drop = [
