@@ -30,7 +30,7 @@ def recommendations_page():
         song_name = request.form["song_name"]
         artist_name = request.form["artist_name"]
         try:
-            song_id = retrieve_spotify_id(song_name, artist_name)
+            song_id, song_year = get_id_and_year(song_name, artist_name)
         except:
             return render_template("recommendations-error.html")
 
@@ -64,10 +64,11 @@ def recommendations_page():
             tempo,
             duration_ms,
             time_signature,
+            song_year,
         ]
 
         # Use function from model.py to get recommendations
-        recommendations = find_recommendations(user_song_features)
+        recommendations = find_recommendations(user_song_features, song_id)
 
         return render_template("recommendations.html", recommendations=recommendations)
 

@@ -109,16 +109,18 @@ class SpotifyAPI(object):
         return self.base_search(query_params)
 
 
-def retrieve_spotify_id(song_name, artist_name):
+def get_id_and_year(song_name, artist_name):
     """
     Example:
 
-    song_id = retrieve_spotify_id('margaritaville','jimmy buffett')
+    song_id, song_year = get_id_and_year('margaritaville','jimmy buffett')
 
     print("Song ID is:", song_id)
+    print("Release year is:", song_year)
 
     Output:
     Song ID is: 4EEjMyQub6tgFVshlM9j1M
+    Release year is: 1987
 
     """
 
@@ -128,14 +130,17 @@ def retrieve_spotify_id(song_name, artist_name):
         return "Failed to get Spotify token"
 
     try:
-        song = spotify.search(
+        song_data = spotify.search(
             {"track": song_name, "artist": artist_name}, search_type="track"
         )
-        song_id = song["tracks"]["items"][0]["id"]
+        song_id = song_data["tracks"]["items"][0]["id"]
+        release_date = song_data["tracks"]["items"][0]["album"]["release_date"]
+        format = "%Y-%m-%d"
+        song_year = datetime.datetime.strptime(release_date, format).year
     except:
         return "There was an error finding your song. Please enter another song."
 
-    return song_id
+    return song_id, song_year
 
 
 def retrieve_audio_features(spotify_id):
