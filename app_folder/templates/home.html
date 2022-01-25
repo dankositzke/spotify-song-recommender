@@ -35,11 +35,11 @@
             <div class="container">
                 <div class="d-sm-flex align-items-center justify-content-between">
                     <div>
-                        <h1>Predict Songs From <span class="text-success">
-                            Spotify
+                        <h1>Discover<span class="text-success">
+                            New Songs
                         </span></h1>
                         <p class="lead my-4">
-                            Have you ever had a moment in life where you wanted to find new music, but you didn't know where to look? We've created the tool just for these moments. Using the K-D tree algorithm, this application will take a input for a song and artist, then reccomend the top 10 songs in closest relation.
+                            Have you ever had a moment in your life where you wanted to find new music, but you didn't know where to look? We've created the tool just for these moments. This application allows a user to input a song and artist and then receive 10 song recommendations with similar audio features.
                         </p>
                         <a href="/predictor" class="btn btn-success btn-lg active" role="button">Get Started</a>
                     </div>
@@ -56,14 +56,14 @@
                         <img src="static/learn.svg" class="img-fluid" alt="">
                     </div>
                     <div class="col-md p-5">
-                        <h2>Learn About K-D Tree</h2>
+                        <h2>Learn About Euclidean Distance</h2>
                         <p class="lead">
-                            Learn about the algorithm we use -
+                            Using Euclidean Distance to Recommend Songs
                         </p>
                         <p>
-                            A K-D Tree (also called as K-Dimensional Tree) is a binary search tree where data in each node is a K-Dimensional point in space. In short, it is a space partitioning data structure for organizing points in a K-Dimensional space. For the sake of simplicity, let us understand a 2-D Tree with an example. The root would have an x-aligned plane, the root’s children would both have y-aligned planes, the root’s grandchildren would all have x-aligned planes, and the root’s great-grandchildren would all have y-aligned planes and so on.
+                            Behind the scenes, a dataset of 500k songs is filtered down to only include songs that are approximately the same release year as the user's input. Then 100 of these songs are randomly sampled, and the euclidean distance is computed for each of these 100 songs to determine which 10 songs are closest to the input song in a multi-dimensional space. The 10 songs with the smallest euclidean distance between their audio features and the input song's audio features will be suggested. The features of each song are numerical and they quantify metrics like tempo, danceability, liveliness, etc.
                         </p>
-                        <a href="https://www.cs.cornell.edu/courses/cs4780/2018fa/lectures/lecturenote16.html" class="btn btn-success mt-3">
+                        <a href="https://hlab.stanford.edu/brian/euclidean_distance_in.html" class="btn btn-success mt-3">
                         <i class="bi bi-chevron-right"></i> Read More
                         </a>
                     </div>

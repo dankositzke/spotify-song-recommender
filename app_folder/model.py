@@ -90,6 +90,10 @@ def find_recommendations(user_song_features, song_id):
     artist_list = list(top_ten["artists"])
     album_list = list(top_ten["album"])
 
+    # Remove brackets from artist_list elements
+    for i, artist in enumerate(artist_list):
+        artist_list[i] = artist.replace("[", "").replace("]", "").replace("'", "")
+
     recommendations = list(zip(song_list, artist_list, album_list))
 
     return recommendations
