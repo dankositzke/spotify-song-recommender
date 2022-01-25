@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navmenu">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Song Prediction</a>
+                    <a href="/predictor" class="nav-link">Song Prediction</a>
                 <li class="nav-item">
                     <a href="/#learn" class="nav-link">Learn More</a>
                 </li>
@@ -49,9 +49,9 @@
               </tr>
               {% for each in recommendations %}
               <tr>
+                <td>{{ each[0] }}</td>
                 <td>{{ each[1] }}</td>
                 <td>{{ each[2] }}</td>
-                <td>{{ each[3] }}</td>
               </tr>
               {% endfor %}
           </table>
